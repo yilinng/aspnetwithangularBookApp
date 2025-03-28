@@ -1,0 +1,20 @@
+<h2>My Books</h2>
+<app-book-form></app-book-form>
+<ul class="books">
+  <li *ngFor="let book of books">
+    <a routerLink="/detail/{{ book.book_Id }}">
+      <span class="badge">{{ book.book_Id }}</span>
+      {{ stringLength(book.title) }}
+    </a>
+    <button
+      type="button"
+      class="delete"
+      title="delete book"
+      (click)="delete(book)"
+    >
+      x
+    </button>
+  </li>
+</ul>
+
+<app-book-detail [book]="selectedBook"></app-book-detail>

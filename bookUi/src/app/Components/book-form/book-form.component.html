@@ -1,0 +1,93 @@
+<div class="container">
+  <div [hidden]="submitted">
+    <h1>Book Form</h1>
+    <form (ngSubmit)="onSubmit()" #bookForm="ngForm">
+      {{ model | json }}
+      <div class="form-group">
+        <label for="title">Book Title</label>
+        <input
+          type="text"
+          class="form-control"
+          id="title"
+          required
+          [(ngModel)]="model.title"
+          name="title"
+          #title="ngModel"
+        />
+        <div
+          [hidden]="title.valid || title.pristine"
+          class="alert alert-danger"
+        >
+          title is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="author">Book Author</label>
+        <input
+          type="text"
+          class="form-control"
+          id="author"
+          required
+          [(ngModel)]="model.author"
+          name="author"
+          #author="ngModel"
+        />
+        <div
+          [hidden]="author.valid || author.pristine"
+          class="alert alert-danger"
+        >
+          Author is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="price">Book Price</label>
+        <input
+          type="nubmer"
+          class="form-control"
+          id="price"
+          required
+          [(ngModel)]="model.price"
+          name="pirce"
+          #price="ngModel"
+        />
+      </div>
+      <div [hidden]="price.valid || price.pristine" class="alert alert-danger">
+        Price is required
+      </div>
+
+      <button type="button" class="btn btn-default" (click)="newBook()">
+        New Book
+      </button>
+
+      <button
+        type="submit"
+        class="btn btn-success"
+        [disabled]="!bookForm.form.valid"
+      >
+        Submit
+      </button>
+    </form>
+  </div>
+
+  <div [hidden]="!submitted">
+    <h2>You submitted the following:</h2>
+    <div class="row">
+      <div class="col-xs-3">Title</div>
+      <div class="col-xs-9">{{ model.title }}</div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3">Author</div>
+      <div class="col-xs-9">{{ model.author }}</div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3">Price</div>
+      <div class="col-xs-9">{{ model.price }}</div>
+    </div>
+    <br />
+    <button type="button" class="btn btn-primary" (click)="submitted = false">
+      Edit
+    </button>
+  </div>
+</div>
