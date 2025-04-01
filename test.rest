@@ -1,8 +1,6 @@
 GET https://localhost:5001/api/auth/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YjcyNTI1ZjA0NWI4ZGY3MmZlZjM4YiIsIm5iZiI6MTc0MDA1NzY1MSwiZXhwIjoxNzQwNjYyNDUxLCJpYXQiOjE3NDAwNTc2NTF9.J3mvL3me_oiWWbqRhCYD3gS7Lc0REnEPfYks1AYHIMM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6InRlc3QxM0B0ZXN0LmNvbSIsIm5iZiI6MTc0MzQ4NzgwOSwiZXhwIjoxNzQ0MDkyNjA5LCJpYXQiOjE3NDM0ODc4MDl9.X5mVD0k3VIZ2WGqAxhN0CkF2Cev-8ybB3iDJaoulYww
 
-
-###
 ###
 GET https://localhost:5001/api/books
 
@@ -16,9 +14,9 @@ POST https://localhost:5001/api/signup
 Content-Type: application/json
 
 {
-  "username": "test12",
-  "email":"test12@test.com",
-  "password": "test12"
+  "username": "test13",
+  "email":"test13@test.com",
+  "password": "test13"
 }
 
 ###
@@ -26,27 +24,44 @@ POST https://localhost:5001/api/login
 Content-Type: application/json
 
 {
-  "email":"test12@test.com",
-  "password": "test12"
+  "email":"test13@test.com",
+  "password": "test13"
 }
 ###
 POST https://localhost:5001/api/books
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6InRlc3QxM0B0ZXN0LmNvbSIsIm5iZiI6MTc0MzQ4NzgwOSwiZXhwIjoxNzQ0MDkyNjA5LCJpYXQiOjE3NDM0ODc4MDl9.X5mVD0k3VIZ2WGqAxhN0CkF2Cev-8ybB3iDJaoulYww
 Content-Type: application/json
 
 {
-  "Title": "How Children Succeed: Grit, Curiosity, and the Hidden Power of Character (Hardcover)",
-  "Price": 100,
-  "Author": "Paul Tough",
-  "User_Id": 1 
+  "title": "Sunrise on the Reaping (A Hunger Games Novel) (The Hunger Games)",
+  "author": "Suzanne Collins",
+  "price": 80,
+  "user_Id": 4
 }
 
 ###
 POST https://localhost:5001/api/books
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6InRlc3QxM0B0ZXN0LmNvbSIsIm5iZiI6MTc0MzQ4NzgwOSwiZXhwIjoxNzQ0MDkyNjA5LCJpYXQiOjE3NDM0ODc4MDl9.X5mVD0k3VIZ2WGqAxhN0CkF2Cev-8ybB3iDJaoulYww
 Content-Type: application/json
 
 {
   "Title": "The Let Them Theory: A Life-Changing Tool That Millions of People Can't Stop Talking About",
   "Price": 82,
   "Author": "Mel Robbins",
-  "User_Id": 1 
+  "User_Id": 4 
+}
+
+###
+DELETE https://localhost:5001/api/books/19
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6InRlc3QxM0B0ZXN0LmNvbSIsIm5iZiI6MTc0MzQ4NzgwOSwiZXhwIjoxNzQ0MDkyNjA5LCJpYXQiOjE3NDM0ODc4MDl9.X5mVD0k3VIZ2WGqAxhN0CkF2Cev-8ybB3iDJaoulYww
+
+###
+PUT https://localhost:5001/api/books/18
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6InRlc3QxM0B0ZXN0LmNvbSIsIm5iZiI6MTc0MzQ4NzgwOSwiZXhwIjoxNzQ0MDkyNjA5LCJpYXQiOjE3NDM0ODc4MDl9.X5mVD0k3VIZ2WGqAxhN0CkF2Cev-8ybB3iDJaoulYww
+Content-Type: application/json
+
+{
+  "title": "Sunrise on the Reaping (A Hunger Games Novel) (The Hunger Games update)",
+  "author": "Suzanne Collins",
+  "price": 77
 }

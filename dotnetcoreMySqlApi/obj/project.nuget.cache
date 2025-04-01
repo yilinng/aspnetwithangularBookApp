@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "1DCIkJg8Rq8hrmXek/O2JZAu2rJfRG52PmgG5tDaw6HtdYJJftpcbwkFbp9BOpGo9ApB3uLQV9di73KdeQ9vtA==",
+  "dgSpecHash": "Ez5EThyOXx8ZiuyTRtNcrpwt8eT9m1FeRI/n+EIHmpaaOKcMY5TmGMeMJmD1DjPvjFpTjInym1Rqc/kZY4Jxnw==",
   "success": true,
-  "projectFilePath": "D:\\userPract\\pract\\cSharp\\dotnetcoreMySqlApi\\dotnetcoreMySqlApi.csproj",
+  "projectFilePath": "D:\\userPract\\pract\\cSharp\\bookApp\\dotnetcoreMySqlApi\\dotnetcoreMySqlApi.csproj",
   "expectedPackageFiles": [
     "D:\\users\\.nuget\\google.protobuf\\3.21.9\\google.protobuf.3.21.9.nupkg.sha512",
     "D:\\users\\.nuget\\k4os.compression.lz4\\1.3.5\\k4os.compression.lz4.1.3.5.nupkg.sha512",

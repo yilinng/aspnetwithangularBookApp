@@ -20,19 +20,24 @@ namespace dotnetcoreMySqlApi.Services
         private readonly BookContext _context;
 
         private readonly AppSettings _appSettings;
+
+        private readonly List<User> _users;
       
         public UserService(BookContext context, IOptions<AppSettings> appSettings)
         {
             _context = context;
             _appSettings = appSettings.Value;
+            _users = context.User.ToList();
+           
         }
 
 
         public async Task<ActionResult<SignupResponse>> Create(User user)
         {
-           
-           // if (!FindByEmail(user.Email))
-            //{
+            var findUser = _context.User.Where(item => item.Email.Contains(user.Email)).FirstOrDefault();
+
+            if (findUser == null)
+            {
                 _context.User.Add(user);
                 await _context.SaveChangesAsync();
 
@@ -44,8 +49,8 @@ namespace dotnetcoreMySqlApi.Services
                 };
 
                 return response;
-           // }
-            //return null;
+            }
+            return null;
         }
 
         public  ActionResult<LoginResponse> Login(LoginModel loginModel)
@@ -60,7 +65,6 @@ namespace dotnetcoreMySqlApi.Services
                     var token = GenerateJwtToken(findUser);
                     LoginResponse response = new LoginResponse
                     {
-                        Id = findUser.User_Id,
                         UserName = findUser.UserName,
                         Email = findUser.Email,
                         RefreshToken = token,
@@ -74,11 +78,7 @@ namespace dotnetcoreMySqlApi.Services
 
             return null;
         }
-        public bool FindByEmail(string email)
-            {
-                return _context.User.Find().Email.Contains(email);
-            }
-
+ 
         private string GenerateJwtToken(User user)
         {
             // generate token that is valid for 7 days
@@ -86,7 +86,7 @@ namespace dotnetcoreMySqlApi.Services
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[] { new Claim("id", user.User_Id.ToString()) }),
+                Subject = new ClaimsIdentity(new[] { new Claim("Email", user.Email) }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
@@ -94,9 +94,20 @@ namespace dotnetcoreMySqlApi.Services
             return tokenHandler.WriteToken(token);
         }
 
-        public User GetById(string id)
+        public User GetByEmail(string email)
         {
-            return _context.User.Where(item => item.User_Id == int.Parse(id)).FirstOrDefault();//_customers.Find(user => user.Id == id).FirstOrDefault();
+            var user = _users.Where(user => user.Email == email).FirstOrDefault();
+
+            if(user == null)
+            {
+                return null;
+            }
+            return user;
+        }
+
+        public IEnumerable<User> GetUsers()
+        {
+            return _users;
         }
 
     }

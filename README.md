@@ -25,3 +25,11 @@ dotnet run
 https://davidgiard.com/using-the-net-cli-to-create-an-aspnet-mvc-application
 
 dotnet new mvc -o of project>
+
+##### TodoList
+
+1. signup have to unique, userService's method Create
+
+2. have to check bearer
+
+3. ui book crud done, bookForm.ts have to add service method

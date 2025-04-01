@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+//https://learn.microsoft.com/en-us/ef/core/modeling/relationships/one-to-many
+//https://medium.com/@jasminewith/entity-framework-core-one-to-many-relationship-62bba94c3ace
 namespace dotnetcoreMySqlApi.Entities
 {
     public class Book
@@ -22,7 +24,9 @@ namespace dotnetcoreMySqlApi.Entities
         [Column(TypeName = "decimal(18, 2)")]
         public decimal Price { get; set; }
 
-        public int User_Id { get; set; }
+        public int? User_Id { get; set; } // Required foreign key property
+
+        public User? User { get; set; } = null!; 
 
     }
 }

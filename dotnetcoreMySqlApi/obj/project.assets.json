@@ -2985,11 +2985,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\userPract\\pract\\cSharp\\dotnetcoreMySqlApi\\dotnetcoreMySqlApi.csproj",
+      "projectUniqueName": "D:\\userPract\\pract\\cSharp\\bookApp\\dotnetcoreMySqlApi\\dotnetcoreMySqlApi.csproj",
       "projectName": "dotnetcoreMySqlApi",
-      "projectPath": "D:\\userPract\\pract\\cSharp\\dotnetcoreMySqlApi\\dotnetcoreMySqlApi.csproj",
+      "projectPath": "D:\\userPract\\pract\\cSharp\\bookApp\\dotnetcoreMySqlApi\\dotnetcoreMySqlApi.csproj",
       "packagesPath": "D:\\users\\.nuget",
-      "outputPath": "D:\\userPract\\pract\\cSharp\\dotnetcoreMySqlApi\\obj\\",
+      "outputPath": "D:\\userPract\\pract\\cSharp\\bookApp\\dotnetcoreMySqlApi\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\CA WEI\\AppData\\Roaming\\NuGet\\NuGet.Config",

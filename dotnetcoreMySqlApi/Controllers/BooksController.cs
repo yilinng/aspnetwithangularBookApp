@@ -1,11 +1,9 @@
 ﻿
+using dotnetcoreMySqlApi.Helpers;
 using dotnetcoreMySqlApi.Entities;
 using dotnetcoreMySqlApi.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
 using System.Collections.Generic;
-
 using System.Threading.Tasks;
 
 namespace dotnetcoreMySqlApi.Controllers
@@ -24,7 +22,7 @@ namespace dotnetcoreMySqlApi.Controllers
         [HttpGet]
         public ActionResult<List<Book>> Get() => _bookService.GetList();
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:length(24)}")]
         public ActionResult<Book> Get(int id)
         {
             var findBook = _bookService.FindById(id);
@@ -37,38 +35,35 @@ namespace dotnetcoreMySqlApi.Controllers
             return findBook;
         }
 
-        [Authorize]
-        [HttpPost]
+        [HttpPost("", Name = "CreateBookAsync")]
+        [Authorize]   
         public async Task<ActionResult<Book>> CreateBookAsync(Book bookIn)
         {
             var intBook = await _bookService.Create(bookIn);
 
-            return intBook;
+            return CreatedAtRoute("CreateBookAsync", new { Controller = "Books", id = bookIn.Book_Id }, intBook) ;
         }
 
+        [HttpPut("{id:length(24)}")]
         [Authorize]
-        [HttpPut("{id}")]
-        public async Task<ActionResult<Book>> UpdateBookAsync(int id, Book bookIn)
+        public async Task<ActionResult> UpdateBookAsync(int id, Book bookIn)
         {
 
-            if (id != bookIn.Book_Id)
-            {
-                return BadRequest();
-            }
+            var book = _bookService.FindById(id);
 
-            var findBook = await _bookService.Update(id, bookIn);
-
-            if (findBook == null)
+            if (book == null)
             {
                 return NotFound();
             }
+           
+            await _bookService.Update(id, bookIn);
 
-            return findBook;
+            return NoContent();
         }
 
+        [HttpDelete("{id:length(24)}")]
         [Authorize]
-        [HttpDelete("{id}")]
-        public IActionResult RemoveBookAsync(int id)
+        public async Task<IActionResult> RemoveBookAsync(int id)
         {
 
             var book = _bookService.FindById(id);
@@ -78,7 +73,7 @@ namespace dotnetcoreMySqlApi.Controllers
                 return NotFound();
             }
 
-            _bookService.Remove(id);
+            await _bookService.Remove(id);
 
             return NoContent();
 

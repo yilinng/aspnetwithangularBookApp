@@ -1,9 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace dotnetcoreMySqlApi.Entities
 {
@@ -18,12 +16,16 @@ namespace dotnetcoreMySqlApi.Entities
         public string UserName { get; set; }
 
         [Required]
-        [StringLength(100, MinimumLength = 5)]
+        [StringLength(30, MinimumLength = 3)]
         public string Email { get; set; }
 
         [Required]
-        [StringLength(50, MinimumLength = 3)]
+        [StringLength(30, MinimumLength = 3)]
+        //https://stackoverflow.com/questions/60184661/net-core-3-jsonignore-not-working-when-requesting-single-resource
+        [JsonIgnore]
         public string Password { get; set; }
+
+        public ICollection<Book> Books { get; } = new List<Book>(); // Collection navigation containing dependents
 
     }
 }

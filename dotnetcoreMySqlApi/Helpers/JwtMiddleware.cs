@@ -48,13 +48,14 @@ namespace dotnetcoreMySqlApi.Helpers
                 }, out SecurityToken validatedToken);
 
                 var jwtToken = (JwtSecurityToken)validatedToken;
-                var userId = jwtToken.Claims.First(x => x.Type == "id").Value;
+                var userEmail = jwtToken.Claims.First(x => x.Type == "Email").Value;
 
                 // attach user to context on successful jwt validation
-                context.Items["User"] = userService.GetById(userId);
+                context.Items["User"] = userService.GetByEmail(userEmail);
             }
             catch
             {
+              
                 // do nothing if jwt validation fails
                 // user is not attached to context so request won't have access to secure routes
             }

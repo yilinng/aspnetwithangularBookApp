@@ -18,13 +18,13 @@ namespace dotnetcoreMySqlApi.Services
 
         private readonly List<Book> _books;
 
-     
+
         public BookService(BookContext context)
         {
             _context = context;
             _books = _context.Book.ToList();
         }
-  
+
         public List<Book> GetList() => _books.ToList();
 
 
@@ -36,13 +36,17 @@ namespace dotnetcoreMySqlApi.Services
             return book;
         }
 
-       
+
         public async Task<ActionResult<Book>> Update(int id, Book bookIn)
         {
-           var findBook = FindById(id);
+            var findBook = FindById(id);
 
-            _context.Entry(bookIn).State = EntityState.Modified;
-            //   findBook.ReplaceOne(book => book.Id == id, bookIn);
+            findBook.Title = bookIn.Title;
+            findBook.Author = bookIn.Author;
+            findBook.Price = bookIn.Price;
+
+            _context.Entry(findBook).State = EntityState.Modified;
+
             try
             {
                 await _context.SaveChangesAsync();
@@ -61,19 +65,18 @@ namespace dotnetcoreMySqlApi.Services
 
             return bookIn;
         }
-           
-       
 
-        public async void Remove(int id)
+
+
+        public async Task Remove(int id)
         {
             var findBook = FindById(id);
 
-            if(findBook != null)
+            if (findBook != null)
             {
                 _context.Book.Remove(findBook);
                 await _context.SaveChangesAsync();
             }
-            //_books.Find(book => book.Id.Equals(id))//.DeleteOne(book => book.Id == id);
 
         }
 
@@ -83,7 +86,8 @@ namespace dotnetcoreMySqlApi.Services
         {
             Book findBook = _books.Find(book => book.Book_Id == id);
 
-            if (findBook != null) {
+            if (findBook != null)
+            {
                 return findBook;
             }
 

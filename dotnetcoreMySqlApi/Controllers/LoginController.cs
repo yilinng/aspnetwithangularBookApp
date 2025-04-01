@@ -41,6 +41,7 @@ namespace dotnetcoreMySqlApi.Controllers
             var user = _userService.Login(loginModel);
             if (user != null)
             {
+                /*
                 var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, loginModel.Email),
@@ -53,7 +54,7 @@ namespace dotnetcoreMySqlApi.Controllers
                 {
                     IsPersistent = true
                 });
-
+                */
                 return Ok(user);
                 //return Redirect(ReturnUrl == null ? "/Secured" : ReturnUrl);
                 //Message = $"Customer {customer.Username} added";

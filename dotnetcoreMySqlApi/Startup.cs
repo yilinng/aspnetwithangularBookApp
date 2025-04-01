@@ -28,30 +28,13 @@ namespace dotnetcoreMySqlApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<BookService>();
-            services.AddScoped<UserService>();
-
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("EmployeeOnly", policy => policy.RequireClaim("EmployeeNumber"));
-                options.AddPolicy("Administrator", policy => policy.RequireRole("Administrator"));
-            });
-
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-            .AddCookie(options =>
-            {
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
-                options.SlidingExpiration = true;
-                options.AccessDeniedPath = "/Forbidden/";
-                options.LoginPath = "/Login";
-            });
-
             services.AddDbContext<BookContext>(
       options => options.UseMySQL(Configuration.GetConnectionString("BookContext")
       ));
             // configure strongly typed settings object
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
-
+            services.AddScoped<BookService>();
+            services.AddScoped<UserService>();
             services.AddCors();
             services.AddControllers().AddNewtonsoftJson(options =>
             {
@@ -80,6 +63,9 @@ namespace dotnetcoreMySqlApi
                .AllowAnyOrigin()
                .AllowAnyMethod()
                .AllowAnyHeader());
+
+            // custom jwt auth middleware
+            app.UseMiddleware<JwtMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

@@ -1,4 +1,5 @@
-﻿using dotnetcoreMySqlApi.Services;
+﻿using dotnetcoreMySqlApi.Helpers;
+using dotnetcoreMySqlApi.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +17,15 @@ namespace dotnetcoreMySqlApi.Controllers
         {
             _userService = userService;
         }
+
+        [Authorize]
+        [HttpGet("users")]
+        public IActionResult GetUser()
+        {
+            var users = _userService.GetUsers();
+            return Ok(new { success = true, users });
+        }
+
 
         [HttpGet("logout")]
         public IActionResult Logout()
