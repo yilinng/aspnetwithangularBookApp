@@ -10,6 +10,12 @@ import { MessagesComponent } from './Components/messages/messages.component';
 import { DashboardComponent } from './Components/dashboard/dashboard.component';
 import { BookSearchComponent } from './Components/book-search/book-search.component';
 import { BookFormComponent } from './Components/book-form/book-form.component';
+import { SignupComponent } from './Components/signup/signup.component';
+import { LoginComponent } from './Components/login/login.component';
+import { httpInterceptorProviders } from './helpers/http.interceptor';
+import { ProfileComponent } from './Components/profile/profile.component';
+import { BoardAdminComponent } from './Components/board-admin/board-admin.component';
+import { BoardUserComponent } from './Components/board-user/board-user.component';
 
 @NgModule({
   declarations: [
@@ -20,9 +26,14 @@ import { BookFormComponent } from './Components/book-form/book-form.component';
     DashboardComponent,
     BookSearchComponent,
     BookFormComponent,
+    SignupComponent,
+    LoginComponent,
+    ProfileComponent,
+    BoardAdminComponent,
+    BoardUserComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
-  providers: [],
+  providers: [httpInterceptorProviders],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

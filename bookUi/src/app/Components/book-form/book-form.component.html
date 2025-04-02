@@ -68,6 +68,15 @@
       >
         Submit
       </button>
+      <div class="form-group">
+        <div
+          class="alert alert-danger"
+          role="alert"
+          *ngIf="bookForm.submitted && isAddFailed"
+        >
+          Login failed: {{ errorMessage }}
+        </div>
+      </div>
     </form>
   </div>
 

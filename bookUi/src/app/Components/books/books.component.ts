@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MessageService } from 'src/app/Services/message.service';
+import { StorageService } from 'src/app/Services/storage.service';
 import { BookEntry } from 'src/app/types/types';
 import { BookService } from '../../Services/book.service';
 
@@ -10,16 +11,19 @@ import { BookService } from '../../Services/book.service';
 })
 export class BooksComponent implements OnInit {
   books: BookEntry[] = [];
+  isLoggedIn = false;
 
   selectedBook?: BookEntry;
   @Input() book?: BookEntry;
 
   constructor(
     private bookService: BookService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private storageService: StorageService
   ) {}
 
   ngOnInit(): void {
+    this.isLoggedIn = this.storageService.isLoggedIn();
     this.getBooks();
     console.log('books com work');
   }
@@ -30,8 +34,8 @@ export class BooksComponent implements OnInit {
   }
 
   stringLength(str: string): string {
-    if (str.length > 50) {
-      return str.substring(0, 50) + '...';
+    if (str.length > 80) {
+      return str.substring(0, 80) + '...';
     } else {
       return str;
     }

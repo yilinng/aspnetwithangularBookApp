@@ -3,6 +3,7 @@ import { BookEntry } from 'src/app/types/types';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { BookService } from 'src/app/Services/book.service';
+import { StorageService } from 'src/app/Services/storage.service';
 
 @Component({
   selector: 'app-book-detail',
@@ -11,13 +12,17 @@ import { BookService } from 'src/app/Services/book.service';
 })
 export class BookDetailComponent implements OnInit {
   @Input() book?: BookEntry;
+  isLoggedIn = false;
+
   constructor(
     private route: ActivatedRoute,
     private bookService: BookService,
+    private storageService: StorageService,
     private location: Location
   ) {}
 
   ngOnInit(): void {
+    this.isLoggedIn = this.storageService.isLoggedIn();
     this.getBook();
     console.log('book detail com work');
   }

@@ -1,12 +1,24 @@
 <h2>My Books</h2>
-<app-book-form></app-book-form>
-<ul class="books">
-  <li *ngFor="let book of books">
+
+<a
+  type="button"
+  *ngIf="isLoggedIn"
+  class="btn btn-primary"
+  routerLink="/books/create"
+  >Add</a
+>
+
+<ul class="list-group">
+  <li
+    *ngFor="let book of books"
+    class="list-group-item d-flex justify-content-between"
+  >
     <a routerLink="/detail/{{ book.book_Id }}">
       <span class="badge">{{ book.book_Id }}</span>
       {{ stringLength(book.title) }}
     </a>
     <button
+      *ngIf="isLoggedIn"
       type="button"
       class="delete"
       title="delete book"

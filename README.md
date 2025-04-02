@@ -16,6 +16,8 @@
 
 - https://andrewlock.net/exploring-the-dotnet-8-preview-introducing-the-identity-api-endpoints/
 
+- https://www.bezkoder.com/angular-13-jwt-auth-httponly-cookie/
+
 #### asp net core app
 
 dotnet run

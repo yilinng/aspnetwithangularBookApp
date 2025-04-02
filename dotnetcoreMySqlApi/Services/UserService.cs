@@ -22,7 +22,7 @@ namespace dotnetcoreMySqlApi.Services
         private readonly AppSettings _appSettings;
 
         private readonly List<User> _users;
-      
+
         public UserService(BookContext context, IOptions<AppSettings> appSettings)
         {
             _context = context;
@@ -36,6 +36,8 @@ namespace dotnetcoreMySqlApi.Services
         {
             var findUser = _context.User.Where(item => item.Email.Contains(user.Email)).FirstOrDefault();
 
+            user.Role = CheckisAamin(user.Email);
+
             if (findUser == null)
             {
                 _context.User.Add(user);
@@ -45,7 +47,8 @@ namespace dotnetcoreMySqlApi.Services
                 {
                     UserName = user.UserName,
                     Email = user.Email,
-                    Message = "signup successfully."
+                    Message = "signup successfully.",
+                    Role = CheckisAamin(user.Email)
                 };
 
                 return response;
@@ -65,10 +68,12 @@ namespace dotnetcoreMySqlApi.Services
                     var token = GenerateJwtToken(findUser);
                     LoginResponse response = new LoginResponse
                     {
+                        User_Id = findUser.User_Id,
                         UserName = findUser.UserName,
                         Email = findUser.Email,
                         RefreshToken = token,
-                        Message = "login successfully."
+                        Message = "login successfully.",
+                        Role = CheckisAamin(findUser.Email)
                     };
 
                     return response; 
@@ -109,6 +114,23 @@ namespace dotnetcoreMySqlApi.Services
         {
             return _users;
         }
+
+
+        public Role.Value CheckisAamin(string email)
+        {
+
+            if(email.Contains("admin"))
+            {
+                return Role.Value.Administrator;
+            } else
+            {
+               return Role.Value.User;
+            }
+
+           
+        }
+
+      
 
     }
 

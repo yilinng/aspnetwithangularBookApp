@@ -22,10 +22,12 @@ namespace dotnetcoreMySqlApi.Entities
         [Required]
         [StringLength(30, MinimumLength = 3)]
         //https://stackoverflow.com/questions/60184661/net-core-3-jsonignore-not-working-when-requesting-single-resource
-        [JsonIgnore]
         public string Password { get; set; }
 
         public ICollection<Book> Books { get; } = new List<Book>(); // Collection navigation containing dependents
+
+
+        public Role.Value Role { get; set; }
 
     }
 }

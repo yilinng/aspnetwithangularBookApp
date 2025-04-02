@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-
+using System.Collections.Generic;
 
 namespace dotnetcoreMySqlApi.Entities
 {
@@ -13,5 +13,7 @@ namespace dotnetcoreMySqlApi.Entities
 
         [JsonProperty(PropertyName = "message")]
         public string Message { get; set; }
+
+        public Role.Value Role { get; set; }
     }
 }

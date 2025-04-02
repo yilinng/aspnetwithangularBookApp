@@ -1,10 +1,12 @@
 ﻿using Newtonsoft.Json;
-
+using System.Collections.Generic;
 
 namespace dotnetcoreMySqlApi.Entities
 {
     public class LoginResponse
     {
+        [JsonProperty(PropertyName = "id")]
+        public int User_Id { get; set; }
 
         [JsonProperty(PropertyName = "username")]
         public string UserName { get; set; }
@@ -17,5 +19,7 @@ namespace dotnetcoreMySqlApi.Entities
 
         [JsonProperty(PropertyName = "refreshToken")]
         public string RefreshToken { get; set; }
+
+        public Role.Value Role { get; set; }
     }
 }

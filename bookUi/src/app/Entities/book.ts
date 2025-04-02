@@ -4,6 +4,7 @@ export class Book implements NewBookEntry {
   constructor(
     public title: string,
     public author: string,
-    public price: number
+    public price: number,
+    public user_Id: number
   ) {}
 }

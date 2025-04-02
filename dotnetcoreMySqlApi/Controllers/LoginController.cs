@@ -2,7 +2,9 @@
 using dotnetcoreMySqlApi.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,15 +13,18 @@ using System.Threading.Tasks;
 
 namespace dotnetcoreMySqlApi.Controllers
 {
+    [EnableCors("CorsApi")]
     [ApiController]
     [Route("api/[controller]")]
     public class LoginController : ControllerBase
     {
         public readonly UserService _userService;
+        private readonly ILogger _logger;
 
-        public LoginController(UserService userService)
+        public LoginController(UserService userService, ILogger<LoginController> logger)
         {
             _userService = userService;
+            _logger = logger;
         }
 
         //POST login
@@ -42,11 +47,13 @@ namespace dotnetcoreMySqlApi.Controllers
             if (user != null)
             {
                 /*
+                var role = _userService.CheckisAamin(loginModel.Email) ? Role.Value.Administrator : Role.Value.User;
+                
                 var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, loginModel.Email),
                 new Claim("EmployeeNumber", "10"),
-                new Claim(ClaimTypes.Role, "Administrator")
+                new Claim(ClaimTypes.Role, role.ToString())
             };
                 var claimsIdentity = new ClaimsIdentity(claims, "Login");
 
@@ -55,6 +62,8 @@ namespace dotnetcoreMySqlApi.Controllers
                     IsPersistent = true
                 });
                 */
+                _logger.LogInformation("User {Name} logged in at {Time}.",
+               User.Identity.Name, DateTime.UtcNow);
                 return Ok(user);
                 //return Redirect(ReturnUrl == null ? "/Secured" : ReturnUrl);
                 //Message = $"Customer {customer.Username} added";
@@ -69,5 +78,7 @@ namespace dotnetcoreMySqlApi.Controllers
             return BadRequest(new { message = "Username or password is incorrect." });
 
         }
+
+        
     }
 }

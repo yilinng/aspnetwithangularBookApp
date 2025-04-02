@@ -6,6 +6,7 @@ create table User (
 	`username` varchar(120) NOT NULL,
 	`email` varchar(220) NOT NULL,
 	`password` varchar(120) NOT NULL,
+	`role` varchar(30),
 	PRIMARY KEY (`user_id`)
 );
 

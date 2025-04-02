@@ -1,9 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { BookEntry, NewBookEntry } from '../types/types';
+import {
+  BookEntry,
+  LoginResponseEntry,
+  NewBookEntry,
+  UserEntry,
+} from '../types/types';
 import { MessageService } from './message.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -14,10 +20,15 @@ export class BookService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
 
+  token = '';
+
   constructor(
     private http: HttpClient,
-    private messageService: MessageService
-  ) {}
+    private messageService: MessageService,
+    private storageService: StorageService
+  ) {
+    this.getToken();
+  }
 
   //https://v14.angular.io/tutorial/toh-pt4
   getBooks(): Observable<BookEntry[]> {
@@ -52,32 +63,51 @@ export class BookService {
 
   /** POST: add a new hero to the server */
   addBook(book: NewBookEntry): Observable<BookEntry> {
-    return this.http.post<BookEntry>(this.bookUrl, book, this.httpOptions).pipe(
-      tap((newBook: BookEntry) =>
-        this.log(`added book w/ id=${newBook.book_Id}`)
-      ),
-      catchError(this.handleError<BookEntry>('addBook'))
-    );
+    let headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', 'Bearer ' + this.token);
+
+    console.log('token', this.token);
+
+    console.log('addBook httpOptions', headers);
+    return this.http.post<BookEntry>(this.bookUrl, book, { headers: headers });
   }
 
   /** PUT: update the hero on the server */
   updateBook(book: BookEntry): Observable<any> {
     const url = `${this.bookUrl}/${book.book_Id}`;
+    let headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', 'Bearer ' + this.token);
 
-    return this.http.put(url, book, this.httpOptions).pipe(
-      tap((_) => this.log(`updated book id=${book.book_Id}`)),
-      catchError(this.handleError<any>('updateBook'))
-    );
+    console.log('token', this.token);
+
+    console.log('updateBook httpOptions', headers);
+
+    return this.http.put(url, book, { headers: headers });
   }
 
   /** DELETE: delete the hero from the server */
   deleteBook(id: number): Observable<BookEntry> {
     const url = `${this.bookUrl}/${id}`;
+    let headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Authorization', 'Bearer ' + this.token);
 
-    return this.http.delete<BookEntry>(url, this.httpOptions).pipe(
-      tap((_) => this.log(`deleted book id=${id}`)),
-      catchError(this.handleError<BookEntry>('deleteBook'))
-    );
+    console.log('token', this.token);
+
+    console.log('deleteBook httpOptions', headers);
+
+    return this.http.delete<BookEntry>(url, { headers: headers });
+  }
+
+  getToken() {
+    let isLoggedIn = this.storageService.isLoggedIn();
+    if (isLoggedIn) {
+      const user = this.storageService.getUser();
+      console.log('user', user);
+      this.token = user.value.refreshToken;
+    }
   }
 
   /* GET heroes whose name contains search term */

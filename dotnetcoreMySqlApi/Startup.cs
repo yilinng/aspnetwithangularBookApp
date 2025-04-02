@@ -35,7 +35,14 @@ namespace dotnetcoreMySqlApi
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.AddScoped<BookService>();
             services.AddScoped<UserService>();
-            services.AddCors();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsApi",
+                    builder => builder.WithOrigins("http://localhost:4200", "http://mywebsite.com")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials());
+            });
             services.AddControllers().AddNewtonsoftJson(options =>
             {
                 // Use the default property (Pascal) casing
