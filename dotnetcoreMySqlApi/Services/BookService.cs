@@ -93,5 +93,20 @@ namespace dotnetcoreMySqlApi.Services
 
             return null;
         }
+
+        //https://learn.microsoft.com/en-us/aspnet/core/tutorials/razor-pages/search?view=aspnetcore-3.1
+
+        public async Task<List<Book>> FindByName(string name)
+        {
+            var findBooks = from m in _context.Book select m;
+
+            if (!string.IsNullOrEmpty(name))
+            {
+                name = name.Trim();
+                findBooks = findBooks.Where(s => s.Title.Contains(name) || s.Author.Contains(name));
+            }
+
+            return await findBooks.ToListAsync();
+        }
     }
 }

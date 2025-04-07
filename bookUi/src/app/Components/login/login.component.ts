@@ -33,6 +33,9 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void {
     console.log('this model', this.model);
+    if (!this.model.email || !this.model.password) {
+      return;
+    }
     this.userService.login(this.model).subscribe({
       next: (data) => {
         this.storageService.saveUser(data);

@@ -23,6 +23,9 @@ export class SignupComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     console.log('this model', this.model);
+    if (!this.model.username || !this.model.email || !this.model.password) {
+      return;
+    }
     this.userService.register(this.model).subscribe({
       next: (data) => {
         console.log(data);

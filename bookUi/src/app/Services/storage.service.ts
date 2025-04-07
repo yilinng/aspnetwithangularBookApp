@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BookEntry } from '../types/types';
 
 const USER_KEY = 'auth-user';
 
@@ -31,6 +32,25 @@ export class StorageService {
       return true;
     }
 
+    return false;
+  }
+
+  //role is admin or user which is created books
+
+  public isAdmin(): boolean {
+    const user = this.getUser();
+    if (user && user.value?.role === 0) {
+      return true;
+    }
+
+    return false;
+  }
+
+  public isUser(book: BookEntry): boolean {
+    const user = this.getUser();
+    if (user && book.user_Id === user.value?.id) {
+      return true;
+    }
     return false;
   }
 }

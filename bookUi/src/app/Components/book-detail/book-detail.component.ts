@@ -13,6 +13,7 @@ import { StorageService } from 'src/app/Services/storage.service';
 export class BookDetailComponent implements OnInit {
   @Input() book?: BookEntry;
   isLoggedIn = false;
+  isAdmin = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -23,8 +24,13 @@ export class BookDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoggedIn = this.storageService.isLoggedIn();
+    this.isAdmin = this.storageService.isAdmin();
     this.getBook();
     console.log('book detail com work');
+  }
+
+  isCreatedUser(book: BookEntry): boolean {
+    return this.storageService.isUser(book);
   }
 
   getBook(): void {

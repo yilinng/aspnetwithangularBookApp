@@ -12,6 +12,7 @@ import { BookService } from '../../Services/book.service';
 export class BooksComponent implements OnInit {
   books: BookEntry[] = [];
   isLoggedIn = false;
+  isAdmin = false;
 
   selectedBook?: BookEntry;
   @Input() book?: BookEntry;
@@ -24,8 +25,13 @@ export class BooksComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoggedIn = this.storageService.isLoggedIn();
+    this.isAdmin = this.storageService.isAdmin();
     this.getBooks();
     console.log('books com work');
+  }
+
+  isCreatedUser(book: BookEntry): boolean {
+    return this.storageService.isUser(book);
   }
 
   onSelect(book: BookEntry): void {

@@ -71,3 +71,6 @@ Content-Type: application/json
   "author": "Suzanne Collins",
   "price": 77
 }
+
+###
+GET https://localhost:5001/api/books/name=ballad

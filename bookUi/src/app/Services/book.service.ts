@@ -112,11 +112,14 @@ export class BookService {
 
   /* GET heroes whose name contains search term */
   searchBooks(term: string): Observable<BookEntry[]> {
+    //  console.log(' searchBooks term ', term);
     if (!term.trim()) {
       // if not search term, return empty hero array.
       return of([]);
     }
-    return this.http.get<BookEntry[]>(`${this.bookUrl}/?name=${term}`).pipe(
+    return this.http.get<BookEntry[]>(`${this.bookUrl}/name=${term}`);
+    /*
+    .pipe(
       tap((x) =>
         x.length
           ? this.log(`found books matching "${term}"`)
@@ -124,6 +127,7 @@ export class BookService {
       ),
       catchError(this.handleError<BookEntry[]>('searchBooks', []))
     );
+    */
   }
 
   /**
@@ -133,7 +137,7 @@ export class BookService {
    * @param operation - name of the operation that failed
    * @param result - optional value to return as the observable result
    */
-  private handleError<T>(operation = 'operation', result?: T) {
+  public handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       // TODO: send the error to remote logging infrastructure
       console.error(error); // log to console instead

@@ -1,12 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, tap } from 'rxjs';
 
 import { BookEntry } from 'src/app/types/types';
 
 import { BookService } from 'src/app/Services/book.service';
 
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import {
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  switchMap,
+} from 'rxjs/operators';
 
 @Component({
   selector: 'app-book-search',
@@ -33,7 +38,18 @@ export class BookSearchComponent implements OnInit {
       distinctUntilChanged(),
 
       // switch to new search observable each time the term changes
-      switchMap((term: string) => this.bookService.searchBooks(term))
+      switchMap((term: string) =>
+        this.bookService.searchBooks(term).pipe(
+          tap((x) =>
+            x.length
+              ? console.log(`found books matching "${term}"`)
+              : console.log(`no books matching "${term}"`)
+          ),
+          catchError(
+            this.bookService.handleError<BookEntry[]>('searchBooks', [])
+          )
+        )
+      )
     );
   }
 }

@@ -85,9 +85,30 @@ namespace dotnetcoreMySqlApi.Controllers
 
             await _bookService.Remove(id);
 
+            _logger.LogInformation("{id} RemoveBookAsync in at {Time}.", id.ToString() , DateTime.UtcNow);
+
             return NoContent();
 
+        }
+
+        [HttpGet("name={name}")]
+        public async Task<ActionResult<List<Book>>> FindBookByName(string name)
+        {
+
+            var books = await _bookService.FindByName(name);
+
+            if (books == null)
+            {
+                return NotFound();
+            }
+
+            _logger.LogInformation("{Books} FindBookByName in at {Time}.", books.ToString(), DateTime.UtcNow);
+
+
+
+            return books;
 
         }
+
     }
 }

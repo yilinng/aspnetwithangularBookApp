@@ -53,6 +53,8 @@
     />
   </div>
 
-  <button type="button" *ngIf="isLoggedIn" (click)="save()">save</button>
+  <button type="button" *ngIf="isAdmin || isCreatedUser(book)" (click)="save()">
+    save
+  </button>
   <button type="button" (click)="goBack()">go back</button>
 </div>
