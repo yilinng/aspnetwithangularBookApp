@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map, tap, retry } from 'rxjs/operators';
 import {
   UserEntry,
   NewUserEntry,
@@ -10,6 +10,7 @@ import {
 } from '../types/types';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MessageService } from './message.service';
+import { shouldRetry } from '../helpers/backoff';
 
 @Injectable({
   providedIn: 'root',
@@ -37,18 +38,24 @@ export class UserService {
   /** POST: add a new user to the server */
   register(user: NewUserEntry): Observable<SignupResponseEntry> {
     const url = this.bookUrl + 'signup';
-    return this.http.post<SignupResponseEntry>(url, user, this.httpOptions);
+    return this.http
+      .post<SignupResponseEntry>(url, user, this.httpOptions)
+      .pipe(retry({ count: 2, delay: shouldRetry }));
   }
 
   /** POST: login  to the server */
   login(user: LoginEntry): Observable<LoginResponseEntry> {
     const url = this.bookUrl + 'login';
-    return this.http.post<LoginResponseEntry>(url, user, this.httpOptions);
+    return this.http
+      .post<LoginResponseEntry>(url, user, this.httpOptions)
+      .pipe(retry({ count: 2, delay: shouldRetry }));
   }
 
   logout(): Observable<any> {
     const url = this.bookUrl + 'auth/logout';
-    return this.http.post(url, {}, this.httpOptions);
+    return this.http
+      .post(url, {}, this.httpOptions)
+      .pipe(retry({ count: 2, delay: shouldRetry }));
   }
 
   /**

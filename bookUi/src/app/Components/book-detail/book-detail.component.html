@@ -1,60 +1,92 @@
 <div *ngIf="book">
   <h2>{{ book.title | uppercase }} Details</h2>
-  <div><span>id: </span>{{ book.book_Id }}</div>
 
-  <div class="input-group mb-3">
-    <div class="input-group-prepend">
-      <span class="input-group-text" id="inputGroup-sizing-default"
-        >Book title:</span
-      >
+  <div *ngIf="showEdit && isLoggedIn">
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-default"
+          >Book title:</span
+        >
+      </div>
+      <input
+        type="text"
+        class="form-control"
+        aria-label="Default"
+        aria-describedby="inputGroup-sizing-default"
+        id="book-title"
+        [(ngModel)]="book.title"
+        placeholder="title"
+      />
     </div>
-    <input
-      type="text"
-      class="form-control"
-      aria-label="Default"
-      aria-describedby="inputGroup-sizing-default"
-      id="book-title"
-      [(ngModel)]="book.title"
-      placeholder="title"
-    />
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-default"
+          >Book author:</span
+        >
+      </div>
+      <input
+        type="text"
+        class="form-control"
+        aria-label="Default"
+        aria-describedby="inputGroup-sizing-default"
+        id="book-author"
+        [(ngModel)]="book.author"
+        placeholder="author"
+      />
+    </div>
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-default"
+          >Book price:</span
+        >
+      </div>
+      <input
+        type="text"
+        class="form-control"
+        aria-label="Default"
+        aria-describedby="inputGroup-sizing-default"
+        id="book-price"
+        [(ngModel)]="book.price"
+        placeholder="pirce"
+      />
+    </div>
   </div>
 
-  <div class="input-group mb-3">
-    <div class="input-group-prepend">
-      <span class="input-group-text" id="inputGroup-sizing-default"
-        >Book author:</span
+  <div *ngIf="!showEdit" class="p-1">
+    <div class="p-2">
+      <span class="h4"
+        >title: <small class="text-muted">{{ book.title }}</small></span
       >
     </div>
-    <input
-      type="text"
-      class="form-control"
-      aria-label="Default"
-      aria-describedby="inputGroup-sizing-default"
-      id="book-author"
-      [(ngModel)]="book.author"
-      placeholder="author"
-    />
-  </div>
-
-  <div class="input-group mb-3">
-    <div class="input-group-prepend">
-      <span class="input-group-text" id="inputGroup-sizing-default"
-        >Book price:</span
+    <div class="p-2">
+      <span class="h4"
+        >author: <small class="text-muted">{{ book.author }}</small></span
       >
     </div>
-    <input
-      type="text"
-      class="form-control"
-      aria-label="Default"
-      aria-describedby="inputGroup-sizing-default"
-      id="book-price"
-      [(ngModel)]="book.price"
-      placeholder="pirce"
-    />
+    <div class="p-2">
+      <span class="h4"
+        >price: <small class="text-muted">{{ book.price }}</small>
+      </span>
+    </div>
   </div>
 
-  <button type="button" *ngIf="isAdmin || isCreatedUser(book)" (click)="save()">
-    save
-  </button>
-  <button type="button" (click)="goBack()">go back</button>
+  <div class="buttonList d-flex justify-content-around">
+    <button
+      type="button"
+      *ngIf="(isLoggedIn && isAdmin) || isCreatedUser(book)"
+      (click)="save()"
+    >
+      save
+    </button>
+    <button type="button" *ngIf="!showEdit" (click)="clickEdit()">
+      show Edit
+    </button>
+    <button type="button" *ngIf="showEdit" (click)="hideEdit()">
+      hide Edit
+    </button>
+
+    <button type="button" (click)="goBack()">go back</button>
+  </div>
 </div>

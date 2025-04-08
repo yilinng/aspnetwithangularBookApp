@@ -14,6 +14,7 @@ export class BookDetailComponent implements OnInit {
   @Input() book?: BookEntry;
   isLoggedIn = false;
   isAdmin = false;
+  showEdit = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -54,6 +55,18 @@ export class BookDetailComponent implements OnInit {
   save(): void {
     if (this.book) {
       this.bookService.updateBook(this.book).subscribe(() => this.goBack());
+    }
+  }
+
+  clickEdit(): void {
+    if (this.isLoggedIn) {
+      this.showEdit = true;
+    }
+  }
+
+  hideEdit(): void {
+    if (this.isLoggedIn) {
+      this.showEdit = false;
     }
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map, tap, retry } from 'rxjs/operators';
 import {
   BookEntry,
   LoginResponseEntry,
@@ -10,6 +10,7 @@ import {
 import { MessageService } from './message.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { StorageService } from './storage.service';
+import { backoff, shouldRetry } from '../helpers/backoff';
 
 @Injectable({
   providedIn: 'root',
@@ -32,10 +33,14 @@ export class BookService {
 
   //https://v14.angular.io/tutorial/toh-pt4
   getBooks(): Observable<BookEntry[]> {
-    return this.http.get<BookEntry[]>(this.bookUrl).pipe(
+    return this.http
+      .get<BookEntry[]>(this.bookUrl)
+      .pipe(retry({ count: 2, delay: shouldRetry }));
+    /*.pipe(
       tap((_) => this.log('fetched books')),
       catchError(this.handleError<BookEntry[]>('getBooks', []))
     );
+    */
   }
 
   /** GET hero by id. Return `undefined` when id not found */
@@ -55,10 +60,16 @@ export class BookService {
     // For now, assume that a hero with the specified `id` always exists.
     // Error handling will be added in the next step of the tutorial.
     const url = `${this.bookUrl}/${id}`;
-    return this.http.get<BookEntry>(url).pipe(
+    return this.http
+      .get<BookEntry>(url)
+      .pipe(retry({ count: 2, delay: shouldRetry }));
+    /*
+      .pipe(
       tap((_) => this.log(`fetched book id=${id}`)),
       catchError(this.handleError<BookEntry>(`getBook id=${id}`))
+      
     );
+    */
   }
 
   /** POST: add a new hero to the server */
@@ -70,7 +81,9 @@ export class BookService {
     console.log('token', this.token);
 
     console.log('addBook httpOptions', headers);
-    return this.http.post<BookEntry>(this.bookUrl, book, { headers: headers });
+    return this.http
+      .post<BookEntry>(this.bookUrl, book, { headers: headers })
+      .pipe(retry({ count: 2, delay: shouldRetry }));
   }
 
   /** PUT: update the hero on the server */
@@ -84,7 +97,9 @@ export class BookService {
 
     console.log('updateBook httpOptions', headers);
 
-    return this.http.put(url, book, { headers: headers });
+    return this.http
+      .put(url, book, { headers: headers })
+      .pipe(retry({ count: 2, delay: shouldRetry }));
   }
 
   /** DELETE: delete the hero from the server */
@@ -98,7 +113,9 @@ export class BookService {
 
     console.log('deleteBook httpOptions', headers);
 
-    return this.http.delete<BookEntry>(url, { headers: headers });
+    return this.http
+      .delete<BookEntry>(url, { headers: headers })
+      .pipe(retry({ count: 2, delay: shouldRetry }));
   }
 
   getToken() {
@@ -117,7 +134,9 @@ export class BookService {
       // if not search term, return empty hero array.
       return of([]);
     }
-    return this.http.get<BookEntry[]>(`${this.bookUrl}/name=${term}`);
+    return this.http
+      .get<BookEntry[]>(`${this.bookUrl}/name=${term}`)
+      .pipe(retry({ count: 2, delay: shouldRetry }));
     /*
     .pipe(
       tap((x) =>

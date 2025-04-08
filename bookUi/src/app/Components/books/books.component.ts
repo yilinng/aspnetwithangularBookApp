@@ -40,8 +40,8 @@ export class BooksComponent implements OnInit {
   }
 
   stringLength(str: string): string {
-    if (str.length > 80) {
-      return str.substring(0, 80) + '...';
+    if (str.length > 50) {
+      return str.substring(0, 50) + '...';
     } else {
       return str;
     }

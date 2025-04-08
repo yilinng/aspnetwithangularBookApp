@@ -13,7 +13,12 @@
     *ngFor="let book of books"
     class="list-group-item d-flex justify-content-between"
   >
-    <a routerLink="/detail/{{ book.book_Id }}">
+    <a
+      routerLink="/detail/{{ book.book_Id }}"
+      data-toggle="tooltip"
+      data-placement="top"
+      title="{{ book.title }}"
+    >
       <span class="badge">{{ book.book_Id }}</span>
       {{ stringLength(book.title) }}
     </a>
